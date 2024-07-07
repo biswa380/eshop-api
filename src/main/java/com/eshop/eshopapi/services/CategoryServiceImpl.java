@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,24 +18,22 @@ import com.eshop.eshopapi.models.CategoryDto;
 import com.eshop.eshopapi.models.CategoryTreeMap;
 import com.eshop.eshopapi.repository.CategoryRepository;
 
-
+@RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public Category saveCategory(CategoryDto categoryDto) {
         List<Category> existingCategory = new ArrayList<>();
-        Category category = new Category();
+        Category category = null;
         Query query = new Query();
             query.addCriteria(Criteria.where("categoryId").is(categoryDto.getCategoryId()));
             existingCategory = mongoTemplate.find(query, Category.class);
-            category = existingCategory.isEmpty() ? new Category() : existingCategory.get(0);
+            category = existingCategory.isEmpty() ? null : existingCategory.get(0);
         if(category!=null) {
             category.setCategoryId(categoryDto.getCategoryId());
             category.setCategoryName(categoryDto.getCategoryName());
