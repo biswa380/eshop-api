@@ -82,7 +82,6 @@ public class CategoryServiceImpl implements CategoryService{
                 categoryMap.setChildren(getChildren(allCategories, c.getCategoryId()));
                 categoryTreeMaps.add(categoryMap);
             }
-            
         });
         return categoryTreeMaps;
     }
@@ -97,7 +96,6 @@ public class CategoryServiceImpl implements CategoryService{
             childCategory.setChildren(getChildren(allCategories, c.getCategoryId()));
             childCategories.add(childCategory);
         });
-
         return childCategories;
     }
 
@@ -113,6 +111,4 @@ public class CategoryServiceImpl implements CategoryService{
             return "Category doesn't exists.";
         }
     }
-
-    
 }
